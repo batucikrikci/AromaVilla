@@ -48,7 +48,11 @@ app.MapRazorPages();
 using (var scope = app.Services.CreateScope())
 {
     var shopContext = scope.ServiceProvider.GetRequiredService<ShopContext>();
+    var identityContext = scope.ServiceProvider.GetRequiredService<AppIdentityDbContext>();
+    var roleManeger = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManeger = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
     await ShopContextSeed.SeedAsync(shopContext);
+    await AppIdentityDbContextSeed.SeedAsync(identityContext,roleManeger,userManeger);
 }
 
 app.Run();
